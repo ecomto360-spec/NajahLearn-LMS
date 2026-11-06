@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: najahlearn-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${SQL_DB_NAME:-najahlearn}
+      POSTGRES_USER: ${SQL_ADMIN_USER:-najahlearn_admin}
+      POSTGRES_PASSWORD: ${SQL_ADMIN_PASSWORD:-najahlearn_secret_2026}
+    ports:
+      - "5432:5432"
+    volumes:
+      - najahlearn_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SQL_ADMIN_USER:-najahlearn_admin} -d ${SQL_DB_NAME:-najahlearn}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: node:22-alpine
+    container_name: najahlearn-app
+    working_dir: /usr/src/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DEFAULT_TIMEZONE: Africa/Algiers
+      DEFAULT_CURRENCY: DZD
+      SQL_HOST: postgres
+      SQL_DB_NAME: ${SQL_DB_NAME:-najahlearn}
+      SQL_USER: ${SQL_USER:-najahlearn_admin}
+      SQL_PASSWORD: ${SQL_PASSWORD:-najahlearn_secret_2026}
+      SQL_ADMIN_USER: ${SQL_ADMIN_USER:-najahlearn_admin}
+      SQL_ADMIN_PASSWORD: ${SQL_ADMIN_PASSWORD:-najahlearn_secret_2026}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
+    command: >
+      sh -c "npm install &&
+             npm run db:push &&
+             npm run db:seed &&
+             npm run build &&
+             npm run start"
+
+volumes:
+  najahlearn_pgdata:

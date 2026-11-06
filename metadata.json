@@ -1,0 +1,6 @@
+{
+  "name": "NajahLearn LMS - Plateforme E-Learning & Gestion Scolaire",
+  "description": "Plateforme professionnelle e-learning et gestion administrative pour écoles et centres de formation : cours en direct, visioconférence sécurisée, abonnements en DZD, gestion des présences et tableaux de bord analytiques.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

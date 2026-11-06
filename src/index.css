@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --color-navy: #101B33;
+    --color-institutional: #2457C5;
+    --color-soft-blue: #EAF1FF;
+    --color-bg: #F5F7FB;
+    --color-card: #FFFFFF;
+    --color-text-main: #17243A;
+    --color-text-muted: #64748B;
+    --color-border: #E2E8F0;
+    --color-positive: #16845B;
+    --color-warning: #B96912;
+    --color-danger: #C43D4B;
+    --tenant-primary: #101B33;
+    --tenant-secondary: #2457C5;
+    --tenant-accent: #16845B;
+  }
+
+  body {
+    background-color: #F5F7FB;
+    color: #17243A;
+    @apply antialiased selection:bg-[#2457C5] selection:text-white;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.6);
+}
+
+/* Arabic RTL Typography (Cairo) & Directional Utilities */
+html[dir="rtl"],
+html:lang(ar),
+html[dir="rtl"] body,
+html:lang(ar) body {
+  font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: 0 !important;
+}
+
+[dir="rtl"] .tracking-wider,
+[dir="rtl"] .tracking-widest,
+[dir="rtl"] .tracking-tight {
+  letter-spacing: 0 !important;
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Western Arabic / Latin numerals (0-9) isolation for amounts, matricules, codes, dates & phones */
+.ltr-num {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Official Printable Receipt Support (LTR & RTL) */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  body:has(#printable-receipt-modal) {
+    background: #ffffff !important;
+  }
+
+  body:has(#printable-receipt-modal) #root > div > header,
+  body:has(#printable-receipt-modal) #root > div > main,
+  body:has(#printable-receipt-modal) #root > div > footer,
+  body:has(#printable-receipt-modal) .no-print {
+    display: none !important;
+  }
+
+  #printable-receipt-modal {
+    position: static !important;
+    inset: auto !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  #printable-receipt-card {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    overflow: visible !important;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
